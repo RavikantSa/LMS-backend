@@ -1,21 +1,24 @@
 package com.example.LMSbackend.Service;
 
-import com.example.LMSbackend.Enums.CardStatus;
-import com.example.LMSbackend.Models.Card;
+import com.example.LMSbackend.Controllers.StudentController;
+import com.example.LMSbackend.Convertors.AuthorConvertor;
+import com.example.LMSbackend.Convertors.StudentConvertor;
 import com.example.LMSbackend.Models.Student;
 import com.example.LMSbackend.Repository.StudentRepository;
 import com.example.LMSbackend.RequestDto.StudentRequestDto;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
+@Slf4j
 public class StudentService {
     @Autowired
     StudentRepository studentRepository;
     @Autowired
     CardService cardService;
     public  String createStudent(StudentRequestDto studentRequestDto){
-
+/*
         //Convert the Dto to entity
         Student s = new Student();
         s.setAge(studentRequestDto.getAge());
@@ -32,7 +35,20 @@ public class StudentService {
 
         studentRepository.save(s);
 
-        return "Succesfully added student and card";
+        return "Successfully added student and card";
+        */
+        try{
+            Student student = StudentConvertor.convertDtoToEntity(studentRequestDto);
+            studentRepository.save(student);
+
+        }catch (Exception e){
+//            @Slf4j  --> log.info("createAuthor has coursed an error");
+            log.info("createStudent has coursed an error");
+            return "Student not created";
+        }
+        return " Student created Successfully";
+
+
     }
 
 
